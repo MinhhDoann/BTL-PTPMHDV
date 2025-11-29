@@ -31,6 +31,12 @@
                         <li><a onclick="showModule('containerhistory')">Lịch sử Container</a></li>
                     </ul>
                 </li>
+                <li class="menu-item">
+                    <a class="menu-toggle">📦 Quản lý Kho Bãi</a>
+                    <ul class="sub-menu">
+                        <li><a onclick="showModule('warehouses')">Kho lưu trữ</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
         <div class="main-content">
@@ -38,7 +44,7 @@
             <!--container-->
             <div id="containers" class="module-content active">
                 <div class="header">
-                    <h2>📦 Quản lý Container</h2>
+                    <h2>🚛 Quản lý Container</h2>
                     <div class="parent">
                         <input class="input" type="text" placeholder="Search..."  />
                         <button class="btn">
@@ -66,7 +72,13 @@
 
             <div id="containerhistory" class="module-content">
                 <div class="header">
-                  <h2>📜 Lịch sử Container</h2>
+                  <h2>📅 Lịch sử Container</h2>
+                  <div class="parent">
+                    <input class="input" type="text" placeholder="Search..."  />
+                    <button class="btn">
+                        <a alt="Search">Search</a>
+                    </button>
+                </div>  
                   <button onclick="openModal('add','containerhistory')">Thêm Lịch sử</button>
                 </div>
                 <table>
