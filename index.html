@@ -29,6 +29,7 @@
                     <ul class="sub-menu">
                         <li><a onclick="showModule('containers')">Danh sách Container</a></li>
                         <li><a onclick="showModule('containerhistory')">Lịch sử Container</a></li>
+                        <li><a onclick="showModule('itemTypes')">Loại hàng</a></li>
                     </ul>
                 </li>
                 <li class="menu-item">
@@ -39,8 +40,9 @@
                 </li>
             </ul>
         </div>
-        <div class="main-content">
 
+
+        <div class="main-content">
             <!--container-->
             <div id="containers" class="module-content active">
                 <div class="header">
@@ -94,7 +96,46 @@
                   </thead>
                   <tbody></tbody>
                 </table>
-              </div>              
+              </div>    
+
+              <div id="itemTypes" class="module-content">
+                <div class="header">
+                  <h2>📂 Loại hàng</h2>
+                  <button onclick="openModal('add','itemTypes')">Thêm loại hàng</button>
+                </div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Tên loại hàng</th>
+                      <th>Mô tả chi tiết</th>
+                      <th>Danh mục</th>
+                      <th>Tác vụ</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>      
+              
+              <div id="warehouses" class="module-content">
+                <div class="header">
+                    <h2>🏭 Kho lưu trữ</h2>
+                    <button onclick="openModal('add','warehouses')">Thêm Kho</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên kho</th>
+                            <th>Sức chứa (tấn)</th>
+                            <th>Vị trí</th>
+                            <th>Người phụ trách</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
 
             <div id="containersPagination" class="pagination"></div>     
         </div>       
