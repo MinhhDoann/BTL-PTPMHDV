@@ -30,8 +30,22 @@
                         <li><a onclick="showModule('containers')">Danh sách Container</a></li>
                         <li><a onclick="showModule('containerhistory')">Lịch sử Container</a></li>
                     </ul>
-                    <a onclick="showModule('finance')" class="menu-toggle">📦 Quản lý Tài chính</a>
-                    <a onclick="showModule('customer')" class="menu-toggle">📦 Quản lý Khách hàng</a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-toggle">📦 Quản lý Tài chính</a>
+                    <ul class="sub-menu">
+                        <li><a onclick="showModule('finance')">Chi phí</a></li>
+                        <li><a onclick="showModule('')">Hóa đơn</a></li>
+                        <li><a onclick="showModule('')">Thanh toán</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-toggle">📦 Quản lý Khách hàng</a>
+                    <ul class="sub-menu">
+                        <li><a onclick="showModule('customer')">Khách hàng</a></li>
+                        <li><a onclick="showModule('')">Hợp đồng</a></li>
+                        <li><a onclick="showModule('')">Cảnh báo</a></li>
+                    </ul>
                 </li>
             </ul>
         </div>
