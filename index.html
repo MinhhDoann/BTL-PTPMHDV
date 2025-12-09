@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <script src="index.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <header class="banner">
+        <div class="banner-left">
+            <img src="https://cdn-icons-png.flaticon.com/512/1995/1995574.png" alt="Logo" class="logo">
+            <h1>Hệ thống Quản lý Logistics</h1>
+        </div>
+        <div class="banner-right" style="float: right; line-height: 35px; ">
+            <ul>
+                <li id="login"><a href="login.html">Đăng Nhập</a></li>
+                <li id="outlogin" style="display: none;"><a href="#" id="logout-link">Đăng Xuất</a></li>
+            </ul>
+        </div>
+    </header>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Danh mục</h2>
+            <ul class="tree-menu">
+                <li class="menu-item">
+                    <a class="menu-toggle">📦 Quản lý Container</a>
+                    <ul class="sub-menu">
+                        <li><a onclick="showModule('containers')">Danh sách Container</a></li>
+                        <li><a onclick="showModule('containerhistory')">Lịch sử Container</a></li>
+                    </ul>
+                    <a onclick="showModule('finance')" class="menu-toggle">📦 Quản lý Tài chính</a>
+                    <a onclick="showModule('customer')" class="menu-toggle">📦 Quản lý Khách hàng</a>
+                </li>
+            </ul>
+        </div>
+        <div class="main-content">
+
+            <!--container-->
+            <div id="containers" class="module-content active">
+                <div class="header">
+                    <h2>📦 Quản lý Container</h2>
+                    <div class="parent">
+                        <input class="input" type="text" placeholder="Search..."  />
+                        <button class="btn">
+                            <a alt="Search">Search</a>
+                        </button>
+                    </div>                    
+                    <button onclick="openModal('add','containers')">Thêm Container</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Loại hàng</th>
+                            <th>Trọng lượng (kg)</th>
+                            <th>Trạng thái</th>
+                            <th>Kho</th>
+                            <th>Phương tiện</th>
+                            <th>Khách hàng</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div id="containerhistory" class="module-content">
+                <div class="header">
+                  <h2>📜 Lịch sử Container</h2>
+                  <button onclick="openModal('add','containerhistory')">Thêm Lịch sử</button>
+                </div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Container</th>
+                      <th>Hành động</th>
+                      <th>Thời gian</th>
+                      <th>Vị trí</th>
+                      <th>Tác vụ</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>  
+
+            <!-- TÀI CHÍNH -->
+            <div id="finance" class="module-content">
+                <div class="header">
+                    <h2>💰 Quản lý Tài chính</h2>
+                    <div class="parent">
+                        <input class="input" type="text" placeholder="Search invoices, payments..." />
+                        <button class="btn">
+                            <span alt="Search">Search</span>
+                        </button>
+                    </div>
+                    <button onclick="openModal('add','finance')">Thêm giao dịch</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Container</th>
+                            <th>Loại phí</th>
+                            <th>Số tiền</th>
+                            <th>Trạng thái</th>
+                            <th>Ngày đến hạn</th>
+                            <th>Khách hàng</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div id="containersPagination" class="pagination"></div>      
+        </div>
+    </div>
+</body>
+</html>
