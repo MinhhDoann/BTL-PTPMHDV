@@ -29,10 +29,17 @@
                     <ul class="sub-menu">
                         <li><a onclick="showModule('containers')">Danh sách Container</a></li>
                         <li><a onclick="showModule('containerhistory')">Lịch sử Container</a></li>
+                        <li><a onclick="showModule('itemTypes')">Loại hàng</a></li>
                     </ul>
                 </li>
                 <li class="menu-item">
-                    <a class="menu-toggle">📦 Quản lý Khách hàng</a>
+                    <a class="menu-toggle">📦 Quản lý Kho Bãi</a>
+                    <ul class="sub-menu">
+                        <li><a onclick="showModule('warehouses')">Kho lưu trữ</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-toggle">📦 Quản lý Khách Hàng</a>
                     <ul class="sub-menu">
                         <li><a onclick="showModule('customers')">Khách hàng</a></li>
                         <li><a onclick="showModule('contracts')">Hợp đồng</a></li>
@@ -47,7 +54,7 @@
                     </ul>
                 </li>
                 <li class="menu-item">
-                    <a class="menu-toggle">📦 Quản lý Khách hàng</a>
+                    <a class="menu-toggle">📦 Báo Cáo Thống Kê</a>
                 </li>
             </ul>
         </div>
@@ -74,7 +81,7 @@
                             <th>Kho</th>
                             <th>Phương tiện</th>
                             <th>Khách hàng</th>
-                            <th>Hành động</th>
+                            <th>Tạc vụ</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -107,6 +114,58 @@
                 </table>
               </div>  
 
+            
+              <div id="itemTypes" class="module-content">
+                <div class="header">
+                    <h2>📂 Loại hàng</h2>
+                    <div class="parent">
+                      <input class="input" type="text" placeholder="Search..."  />
+                      <button class="btn">
+                          <a alt="Search">Search</a>
+                      </button>
+                  </div>  
+                  <button onclick="openModal('add','itemTypes')">Thêm loại hàng</button>
+                </div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Tên loại hàng</th>
+                      <th>Mô tả chi tiết</th>
+                      <th>Danh mục</th>
+                      <th>Tác vụ</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+            </div>
+
+            <div id="warehouses" class="module-content">
+                <div class="header">
+                    <h2>🏭 Kho lưu trữ</h2>
+                    <div class="parent">
+                      <input class="input" type="text" placeholder="Search..."  />
+                      <button class="btn">
+                          <a alt="Search">Search</a>
+                      </button>
+                  </div>  
+                    <button onclick="openModal('add','warehouses')">Thêm Kho</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên kho</th>
+                            <th>Sức chứa (tấn)</th>
+                            <th>Vị trí</th>
+                            <th>Người phụ trách</th>
+                            <th>Tạc vụ</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
             <!-- TÀI CHÍNH -->
              <div id="costs" class="module-content ">
                 <div class="header">
@@ -126,7 +185,7 @@
                             <th>Hợp đồng</th>
                             <th>Loại chi phí</th>
                             <th>Số tiền</th>
-                            <th>Hành động</th>
+                            <th>Tạc vụ</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -152,7 +211,7 @@
                         <th>Số tiền</th>
                         <th>Ngày phát hành</th>
                         <th>Đã thanh toán (%)</th>
-                        <th>Hành động</th>
+                        <th>Tạc vụ</th>
                     </tr>
                   </thead>
                   <tbody></tbody>
@@ -205,7 +264,7 @@
                             <th>Email</th>
                             <th>Số điện thoại</th>
                             <th>Địa chỉ</th>
-                            <th>Hành động</th>
+                            <th>Tạc vụ </th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -227,10 +286,11 @@
                   <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Hóa đơn</th>
-                        <th>Số tiền</th>
-                        <th>Phương thức thanh toán</th>
-                        <th>Thời gian</th>
+                        <th>Khách hàng</th>
+                        <th>Ngày ký</th>
+                        <th>Ngày hết hạn</th>
+                        <th>Giá trị</th>
+                        <th>Tạc vụ</th>
                     </tr>
                   </thead>
                   <tbody></tbody>
