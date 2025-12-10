@@ -32,6 +32,13 @@
                     </ul>
                 </li>
                 <li class="menu-item">
+                    <a class="menu-toggle">📦 Quản lý Khách hàng</a>
+                    <ul class="sub-menu">
+                        <li><a onclick="showModule('customers')">Khách hàng</a></li>
+                        <li><a onclick="showModule('contracts')">Hợp đồng</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item">
                     <a class="menu-toggle">📦 Quản lý Tài chính</a>
                     <ul class="sub-menu">
                         <li><a onclick="showModule('costs')">Chi phí</a></li>
@@ -41,11 +48,6 @@
                 </li>
                 <li class="menu-item">
                     <a class="menu-toggle">📦 Quản lý Khách hàng</a>
-                    <ul class="sub-menu">
-                        <li><a onclick="showModule('customer')">Khách hàng</a></li>
-                        <li><a onclick="showModule('contracts')">Hợp đồng</a></li>
-                        <li><a onclick="showModule('')">Báo cáo thống kê</a></li>
-                    </ul>
                 </li>
             </ul>
         </div>
@@ -120,10 +122,11 @@
                 <table>
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Hợp đồng</th>
                             <th>Loại chi phí</th>
                             <th>Số tiền</th>
-                            <th>Thu khách hàng</th>
+                            <th>Hành động</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -144,10 +147,12 @@
                 <table>
                   <thead>
                     <tr>
-                      <th>Hóa đơn</th>
-                      <th>Số tiền</th>
-                      <th>Phương thức thanh toán</th>
-                      <th>Thời gian</th>
+                        <th>ID</th>
+                        <th>Hợp đồng</th>
+                        <th>Số tiền</th>
+                        <th>Ngày phát hành</th>
+                        <th>Đã thanh toán (%)</th>
+                        <th>Hành động</th>
                     </tr>
                   </thead>
                   <tbody></tbody>
@@ -168,10 +173,12 @@
                 <table>
                   <thead>
                     <tr>
-                      <th>Hóa đơn</th>
-                      <th>Số tiền</th>
-                      <th>Phương thức thanh toán</th>
-                      <th>Thời gian</th>
+                        <th>ID</th>
+                        <th>Hóa đơn</th>
+                        <th>Số tiền</th>
+                        <th>Phương thức thanh toán</th>
+                        <th>Thời gian</th>
+                        <th>Tác vụ</th>
                     </tr>
                   </thead>
                   <tbody></tbody>
@@ -179,77 +186,56 @@
             </div>
 
             <!-- Khách hàng -->
-             <div id="costs" class="module-content ">
+             <div id="customers" class="module-content ">
                 <div class="header">
-                    <h2>📦 Quản lý chi phí</h2>
+                    <h2>Khách hàng</h2>
                     <div class="parent">
                         <input class="input" type="text" placeholder="Search..."  />
                         <button class="btn">
                             <a alt="Search">Search</a>
                         </button>
                     </div>                    
-                    <button onclick="openModal('add','costs')">Thêm dữ liệu chi phí</button>
+                    <button onclick="openModal('add','customers')">Thêm khách hàng</button>
                 </div>
                 <table>
                     <thead>
                         <tr>
-                            <th>Hợp đồng</th>
-                            <th>Loại chi phí</th>
-                            <th>Số tiền</th>
-                            <th>Thu khách hàng</th>
+                            <th>ID</th>
+                            <th>Tên khách hàng</th>
+                            <th>Email</th>
+                            <th>Số điện thoại</th>
+                            <th>Địa chỉ</th>
+                            <th>Hành động</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
             </div>
 
-            <div id="payments" class="module-content">
+            <div id="contracts" class="module-content">
                 <div class="header">
-                  <h2>📜 Hóa đơn</h2>
+                  <h2>Hợp đồng</h2>
                   <div class="parent">
                         <input class="input" type="text" placeholder="Search..."  />
                         <button class="btn">
                             <a alt="Search">Search</a>
                         </button>
                     </div>
-                  <button onclick="openModal('add','containerhistory')">Thêm hóa đơn</button>
+                  <button onclick="openModal('add','')">Thêm hợp đồng</button>
                 </div>
                 <table>
                   <thead>
                     <tr>
-                      <th>Hóa đơn</th>
-                      <th>Số tiền</th>
-                      <th>Phương thức thanh toán</th>
-                      <th>Thời gian</th>
+                        <th>ID</th>
+                        <th>Hóa đơn</th>
+                        <th>Số tiền</th>
+                        <th>Phương thức thanh toán</th>
+                        <th>Thời gian</th>
                     </tr>
                   </thead>
                   <tbody></tbody>
                 </table>
             </div>
-
-            <div id="invoices" class="module-content">
-                <div class="header">
-                  <h2>📜 Thanh toán</h2>
-                  <div class="parent">
-                        <input class="input" type="text" placeholder="Search..."  />
-                        <button class="btn">
-                            <a alt="Search">Search</a>
-                        </button>
-                    </div>
-                  <button onclick="openModal('add','containerhistory')">Thêm dữ liệu thanh toán</button>
-                </div>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Hóa đơn</th>
-                      <th>Số tiền</th>
-                      <th>Phương thức thanh toán</th>
-                      <th>Thời gian</th>
-                    </tr>
-                  </thead>
-                  <tbody></tbody>
-                </table>
-            </div>         
 
             <div id="containersPagination" class="pagination"></div>      
         </div>
