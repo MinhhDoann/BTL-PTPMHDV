@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
         closeModal(forgotModal);
     });
 
-    // Xử lý ĐĂNG KÝ
+    //  ĐĂNG KÝ
     registerForm.addEventListener('submit', function (e) {
         e.preventDefault();
 
