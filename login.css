@@ -228,7 +228,7 @@ hr {
     cursor: pointer;
 }
 
-/* Responsive */
+/* Responsives */
 @media (max-width: 480px) {
     .banner {
         padding: 10px 16px;
