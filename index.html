@@ -39,14 +39,6 @@
                 </ul>
             </li>
             <li class="menu-item">
-                <a class="menu-toggle">👥 Quản lý Nhân viên</a>
-                <ul class="sub-menu">
-                    <li><a onclick="showModule('employees')">Danh sách Nhân viên</a></li>
-                    <li><a onclick="showModule('employeeTypes')">Vị trí / Chức danh</a></li>
-                    <li><a onclick="showModule('departments')">Phòng ban</a></li>
-                </ul>
-            </li>
-            <li class="menu-item">
                 <a class="menu-toggle">📦 Quản lý Khách Hàng</a>
                 <ul class="sub-menu">
                     <li><a onclick="showModule('customers')">Khách hàng</a></li>
@@ -166,72 +158,7 @@
             </table>
         </div>
 
-        <!-- Nhân viên -->
-        <div id="employees" class="module-content">
-            <div class="header">
-                <h2>👥 Danh sách Nhân viên</h2>
-                <div class="parent">
-                    <input class="input" type="text" id="employeeSearch" placeholder="Tìm theo tên, mã, phòng ban..." />
-                    <button class="btn" onclick="searchEmployees()"><span>Tìm kiếm</span></button>
-                </div>
-                <button class="btn-add" onclick="openModal('add', 'employees')">➕ Thêm Nhân viên</button>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Mã NV</th>
-                        <th>Họ và tên</th>
-                        <th>Chức danh</th>
-                        <th>Phòng ban</th>
-                        <th>Số điện thoại</th>
-                        <th>Email</th>
-                        <th>Trạng thái</th>
-                        <th>Hành động</th>
-                    </tr>
-                </thead>
-                <tbody id="employeesTableBody"></tbody>
-            </table>
-        </div>
-
-        <div id="employeeTypes" class="module-content">
-            <div class="header">
-                <h2>🔖 Vị trí / Chức danh</h2>
-                <button class="btn-add" onclick="openModal('add', 'employeeTypes')">➕ Thêm Chức danh</button>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Tên chức danh</th>
-                        <th>Mô tả</th>
-                        <th>Phụ cấp (%)</th>
-                        <th>Hành động</th>
-                    </tr>
-                </thead>
-                <tbody id="employeeTypesTableBody"></tbody>
-            </table>
-        </div>
-
-        <div id="departments" class="module-content">
-            <div class="header">
-                <h2>🏢 Phòng ban</h2>
-                <button class="btn-add" onclick="openModal('add', 'departments')">➕ Thêm Phòng ban</button>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Tên phòng ban</th>
-                        <th>Trưởng phòng</th>
-                        <th>Số nhân viên</th>
-                        <th>Mô tả</th>
-                        <th>Hành động</th>
-                    </tr>
-                </thead>
-                <tbody id="departmentsTableBody"></tbody>
-            </table>
-        </div>
-
+        
         <!-- Khách hàng và Tài chính -->
         <div id="customers" class="module-content">
             <div class="header">
