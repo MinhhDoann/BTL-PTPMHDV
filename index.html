@@ -38,7 +38,7 @@
                 </ul>
             </li>
             <li class="menu-item">
-                <a class="menu-toggle">🚚 Quản lý Vận chuyển</a>
+                <a class="menu-toggle">📦 Quản lý Phương Tiện</a>
                 <ul class="sub-menu">
                     <li><a class="menu-link" data-module="vehicles">Phương tiện</a></li>
                     <li><a class="menu-link" data-module="trips">Chuyến đi / Lịch trình</a></li>
@@ -168,73 +168,85 @@
                 <tbody></tbody>
             </table>
         </div>
-
-        <!-- Nhân viên -->
-        <div id="employees" class="module-content">
-            <div class="header">
-                <h2>👥 Danh sách Nhân viên</h2>
-                <div class="parent">
-                    <input class="input" type="text" id="employeeSearch" placeholder="Tìm theo tên, mã, phòng ban..." />
-                    <button class="btn" onclick="searchEmployees()"><span>Tìm kiếm</span></button>
+        
+        <!-- Phương tiện -->
+        <div id="vehicles" class="module-content">
+                <div class="header">
+                    <h2>🚚 Quản lý Phương tiện</h2>
+                    <div class="header-actions">
+                        <input type="text" class="search-input" placeholder="Tìm kiếm Phương Tiện..." data-table="vehicles">
+                        <button onclick="openModal('add','vehicles')">Thêm Phương Tiện</button>
+                    </div>
                 </div>
-                <button class="btn-add" onclick="openModal('add', 'employees')">➕ Thêm Nhân viên</button>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Loại xe</th>
+                            <th>Biển số xe</th>
+                            <th>Hình ảnh</th>
+                            <th>Tải trọng (tấn)</th>
+                            <th>Trạng thái</th>
+                            <th>Mô tả chi tiết</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="pagination-wrapper"></div>
+            </div>       
+        
+            <!-- Trips -->
+            <div id="trips" class="module-content">
+                <div class="header">
+                    <h2>🚢 Quản lý Chuyến Đi</h2>
+                    <div class="header-actions">
+                        <input type="text" class="search-input" placeholder="Tìm kiếm Chuyến Đi..." data-table="trips">
+                        <button onclick="openModal('add','trips')">Thêm Chuyến Đi</button>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Mã chuyến</th>
+                            <th>Cảng đi</th>
+                            <th>Cảng đến</th>
+                            <th>ETD</th>
+                            <th>ETA</th>
+                            <th>Phương tiện</th>
+                            <th>Trạng thái</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="pagination-wrapper"></div>
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Mã NV</th>
-                        <th>Họ và tên</th>
-                        <th>Chức danh</th>
-                        <th>Phòng ban</th>
-                        <th>Số điện thoại</th>
-                        <th>Email</th>
-                        <th>Trạng thái</th>
-                        <th>Hành động</th>
-                    </tr>
-                </thead>
-                <tbody id="employeesTableBody"></tbody>
-            </table>
-        </div>
 
-        <div id="employeeTypes" class="module-content">
-            <div class="header">
-                <h2>🔖 Vị trí / Chức danh</h2>
-                <button class="btn-add" onclick="openModal('add', 'employeeTypes')">➕ Thêm Chức danh</button>
+            <div id="ports" class="module-content">
+                <div class="header">
+                    <h2>Danh mục Cảng</h2>
+                    <div class="header-actions">
+                        <input type="text" class="search-input" placeholder="Tìm kiếm Cảng..." data-table="ports">
+                        <button onclick="openModal('add','ports')">Thêm Cảng</button>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên cảng</th>
+                            <th>Mã cảng</th>
+                            <th>Địa chỉ</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="pagination-wrapper"></div>
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Tên chức danh</th>
-                        <th>Mô tả</th>
-                        <th>Phụ cấp (%)</th>
-                        <th>Hành động</th>
-                    </tr>
-                </thead>
-                <tbody id="employeeTypesTableBody"></tbody>
-            </table>
         </div>
-
-        <div id="departments" class="module-content">
-            <div class="header">
-                <h2>🏢 Phòng ban</h2>
-                <button class="btn-add" onclick="openModal('add', 'departments')">➕ Thêm Phòng ban</button>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Tên phòng ban</th>
-                        <th>Trưởng phòng</th>
-                        <th>Số nhân viên</th>
-                        <th>Mô tả</th>
-                        <th>Hành động</th>
-                    </tr>
-                </thead>
-                <tbody id="departmentsTableBody"></tbody>
-            </table>
-        </div>
-
         <!-- Khách hàng và Tài chính -->
         <div id="customers" class="module-content">
             <div class="header">
