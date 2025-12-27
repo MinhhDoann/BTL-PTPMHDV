@@ -62,6 +62,12 @@
                 </ul>
             </li>
             <li class="menu-item">
+                <a class="menu-toggle">📦 Người dùng & Phân quyền</a>
+                <ul class="sub-menu">
+                    <li><a onclick="showModule('users')">Người dùng</a></li>
+                </ul>
+            </li>
+            <li class="menu-item">
                 <a class="menu-toggle">📦 Báo Cáo Thống Kê</a>
             </li>
         </ul>
@@ -165,8 +171,8 @@
                 <tbody></tbody>
             </table>
         </div>
-        
-        <!-- Phương tiện -->
+
+        <!-- Vận chuyển -->
         <div id="vehicles" class="module-content">
                 <div class="header">
                     <h2>🚚 Quản lý Phương tiện</h2>
@@ -364,6 +370,30 @@
             </table>
         </div>
 
+        <!-- Người dùng & Phân quyền -->
+        <div>
+            <div id="users" class="module-content">
+                <div class="header">
+                    <h2>Người dùng</h2>
+                    <div class="parent">
+                        <input class="input" type="text" placeholder="Search..." />
+                        <button class="btn"><a alt="Search">Search</a></button>
+                    </div>
+                    <button onclick="openModal('add','users')">Thêm người dùng</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên người dùng</th>
+                            <th>Email</th>
+                            <th>Vai trò</th>
+                            <th>Tác vụ</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+        </div>
         <div id="containersPagination" class="pagination"></div>
     </div>
 </div>
