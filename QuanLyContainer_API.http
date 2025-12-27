@@ -1,0 +1,6 @@
+@QuanLyContainer_API_HostAddress = http://localhost:5021
+
+GET {{QuanLyContainer_API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
