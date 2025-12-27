@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="index.css">
-    <script src="index.js"></script>
     <title>Hệ thống Quản lý Logistics</title>
 </head>
 <body>
@@ -27,42 +26,47 @@
             <li class="menu-item">
                 <a class="menu-toggle">📦 Quản lý Container</a>
                 <ul class="sub-menu">
-                    <li><a onclick="showModule('containers')">Danh sách Container</a></li>
-                    <li><a onclick="showModule('containerhistory')">Lịch sử Container</a></li>
-                    <li><a onclick="showModule('itemTypes')">Loại hàng</a></li>
+                    <li><a class="menu-link" data-module="containers">Danh sách Container</a></li>
+                    <li><a class="menu-link" data-module="containerhistory">Lịch sử Container</a></li>
+                    <li><a class="menu-link" data-module="itemTypes">Loại hàng</a></li>
                 </ul>
             </li>
             <li class="menu-item">
-                <a class="menu-toggle">📦 Quản lý Kho Bãi</a>
+                <a class="menu-toggle">🏭 Quản lý Kho bãi</a>
                 <ul class="sub-menu">
-                    <li><a onclick="showModule('warehouses')">Kho lưu trữ</a></li>
+                    <li><a class="menu-link" data-module="warehouses">Kho lưu trữ</a></li>
                 </ul>
             </li>
             <li class="menu-item">
                 <a class="menu-toggle">📦 Quản lý Phương Tiện</a>
                 <ul class="sub-menu">
-                    <li><a onclick="showModule('vehicles')">Phương tiện</a></li>
-                    <li><a onclick="showModule('trips')">Chuyến đi</a></li>
-                    <li><a onclick="showModule('ports')">Danh mục Cảng</a></li>  
+                    <li><a class="menu-link" data-module="vehicles">Phương tiện</a></li>
+                    <li><a class="menu-link" data-module="trips">Chuyến đi / Lịch trình</a></li>
+                    <li><a class="menu-link" data-module="ports">Danh mục Cảng</a></li>    
                 </ul>
             </li>
             <li class="menu-item">
-                <a class="menu-toggle">📦 Quản lý Khách Hàng</a>
+                <a class="menu-toggle">👥 Quản lý Khách hàng</a>
                 <ul class="sub-menu">
-                    <li><a onclick="showModule('customers')">Khách hàng</a></li>
-                    <li><a onclick="showModule('contracts')">Hợp đồng</a></li>
+                    <li><a class="menu-link" data-module="customers">Khách hàng</a></li>
+                    <li><a class="menu-link" data-module="contracts">Hợp đồng</a></li>
                 </ul>
             </li>
             <li class="menu-item">
-                <a class="menu-toggle">📦 Quản lý Tài chính</a>
+                <a class="menu-toggle">💰 Quản lý Tài chính</a>
                 <ul class="sub-menu">
-                    <li><a onclick="showModule('costs')">Chi phí</a></li>
-                    <li><a onclick="showModule('payments')">Hóa đơn</a></li>
-                    <li><a onclick="showModule('invoices')">Thanh toán</a></li>
+                    <li><a class="menu-link" data-module="costs">Chi phí</a></li>
+                    <li><a class="menu-link" data-module="invoices">Hóa đơn</a></li>
                 </ul>
             </li>
             <li class="menu-item">
-                <a class="menu-toggle">📦 Báo Cáo Thống Kê</a>
+                <a class="menu-toggle">Người dùng & Phân quyền</a>
+                <ul class="sub-menu">
+                    <li><a class="menu-link" data-module="users">Quản lý tài khoản</a></li>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a class="menu-toggle menu-link" data-module="dashboard">Báo cáo thống kê</a>
             </li>
         </ul>
     </div>
@@ -122,13 +126,12 @@
         <div id="itemTypes" class="module-content">
             <div class="header">
                 <h2>📂 Loại hàng</h2>
-                <div class="parent">
-                    <input class="input" type="text" placeholder="Search..." />
-                    <button class="btn"><a alt="Search">Search</a></button>
+                <div class="header-actions">
+                    <input type="text" class="search-input" placeholder="Tìm kiếm Loại Hàng..." data-table="itemTypes">
+                    <button class="btn-add-loaihang">Thêm Loại Hàng</button> 
                 </div>
-                <button onclick="openModal('add','itemTypes')">Thêm loại hàng</button>
             </div>
-            <table>
+            <table data-table="itemTypes">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -367,5 +370,17 @@
         <div id="containersPagination" class="pagination"></div>
     </div>
 </div>
+<div id="dynamicModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 id="modalTitle">Thêm Loại Hàng</h2>
+        <form id="dynamicForm">
+            <input type="hidden" id="entityId">
+            <div id="formFields"></div>
+            <button type="submit" class="save-btn">Lưu</button>
+        </form>
+    </div>
+</div>
+<script type="module" src="./angular/app.js"></script>
 </body>
 </html>
