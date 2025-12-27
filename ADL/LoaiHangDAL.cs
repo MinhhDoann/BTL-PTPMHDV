@@ -16,96 +16,157 @@ namespace QuanLyContainer_API.ADL
         public List<LoaiHang> GetAll()
         {
             var list = new List<LoaiHang>();
-            string sql = "SELECT * FROM LoaiHang";
+            const string sql = "SELECT LoaiHangID, TenLoai, MoTa FROM LoaiHang";
 
-            using (SqlConnection conn = new SqlConnection(_connectionString))
-            using (SqlCommand cmd = new SqlCommand(sql, conn))
+            using SqlConnection conn = new SqlConnection(_connectionString);
+            using SqlCommand cmd = new SqlCommand(sql, conn);
+
+            conn.Open();
+            using SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
             {
-                conn.Open();
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                list.Add(new LoaiHang
                 {
-                    while (reader.Read())
-                    {
-                        list.Add(new LoaiHang
-                        {
-                            LoaiHangID = reader["LoaiHangID"].ToString(),
-                            TenLoai = reader["TenLoai"].ToString(),
-                            MoTa = reader["MoTa"].ToString()
-                        });
-                    }
-                }
+                    LoaiHangID = reader["LoaiHangID"].ToString(),
+                    TenLoai = reader["TenLoai"].ToString(),
+                    MoTa = reader["MoTa"].ToString()
+                });
             }
             return list;
         }
 
         public LoaiHang GetById(string id)
         {
-            string sql = "SELECT * FROM LoaiHang WHERE LoaiHangID = @id";
-            using (SqlConnection conn = new SqlConnection(_connectionString))
-            using (SqlCommand cmd = new SqlCommand(sql, conn))
+            const string sql = "SELECT LoaiHangID, TenLoai, MoTa FROM LoaiHang WHERE LoaiHangID = @id";
+
+            using SqlConnection conn = new SqlConnection(_connectionString);
+            using SqlCommand cmd = new SqlCommand(sql, conn);
+
+            cmd.Parameters.Add("@id", SqlDbType.NVarChar, 50).Value = id;
+
+            conn.Open();
+            using SqlDataReader reader = cmd.ExecuteReader();
+            if (reader.Read())
             {
-                cmd.Parameters.Add("@id", SqlDbType.NVarChar).Value = id;
-                conn.Open();
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                return new LoaiHang
                 {
-                    if (reader.Read())
-                    {
-                        return new LoaiHang
-                        {
-                            LoaiHangID = reader["LoaiHangID"].ToString(),
-                            TenLoai = reader["TenLoai"].ToString(),
-                            MoTa = reader["MoTa"].ToString()
-                        };
-                    }
-                }
+                    LoaiHangID = reader["LoaiHangID"].ToString(),
+                    TenLoai = reader["TenLoai"].ToString(),
+                    MoTa = reader["MoTa"].ToString()
+                };
             }
             return null;
         }
-
         public bool Create(LoaiHang model)
         {
-            string sql = @"INSERT INTO LoaiHang (TenLoai, MoTa) 
-                   VALUES (@TenLoai, @MoTa)";
-
-            using (SqlConnection conn = new SqlConnection(_connectionString))
-            using (SqlCommand cmd = new SqlCommand(sql, conn))
+            const string sql = @"INSERT INTO LoaiHang (TenLoai, MoTa)
+                                 VALUES (@TenLoai, @MoTa)";
+            try
             {
-                cmd.Parameters.AddWithValue("@TenLoai", model.TenLoai ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@MoTa", model.MoTa ?? (object)DBNull.Value);
-                // KHÔNG truyền LoaiHangID nữa
+                using SqlConnection conn = new SqlConnection(_connectionString);
+                using SqlCommand cmd = new SqlCommand(sql, conn);
+
+                cmd.Parameters.Add("@TenLoai", SqlDbType.NVarChar, 100).Value =
+                    string.IsNullOrWhiteSpace(model.TenLoai) ? DBNull.Value : model.TenLoai;
+
+                cmd.Parameters.Add("@MoTa", SqlDbType.NVarChar, 255).Value =
+                    string.IsNullOrWhiteSpace(model.MoTa) ? DBNull.Value : model.MoTa;
 
                 conn.Open();
                 return cmd.ExecuteNonQuery() > 0;
             }
+            catch
+            {
+                return false;
+            }
         }
-        public bool Update(LoaiHang model)
+
+
+        public bool UpdatePartial(LoaiHang model)
         {
-            string sql = @"UPDATE LoaiHang
-                   SET TenLoai = @TenLoai,
-                       MoTa = @MoTa
-                   WHERE LoaiHangID = @LoaiHangID";
+            var sql = "UPDATE LoaiHang SET ";
+            var parameters = new List<SqlParameter>();
+            bool hasChanges = false;
 
-            using (SqlConnection conn = new SqlConnection(_connectionString))
-            using (SqlCommand cmd = new SqlCommand(sql, conn))
+            if (model.TenLoai != null)
             {
-                cmd.Parameters.Add("@LoaiHangID", SqlDbType.NVarChar).Value = model.LoaiHangID;
-                cmd.Parameters.Add("@TenLoai", SqlDbType.NVarChar).Value = model.TenLoai;
-                cmd.Parameters.Add("@MoTa", SqlDbType.NVarChar).Value = model.MoTa;
+                if (!string.IsNullOrWhiteSpace(model.TenLoai) && model.TenLoai != "string")
+                {
+                    sql += "TenLoai = @TenLoai, ";
+                    parameters.Add(new SqlParameter("@TenLoai", SqlDbType.NVarChar, 100)
+                    {
+                        Value = model.TenLoai
+                    });
+                    hasChanges = true;
+                }
+            }
 
-                conn.Open();
-                return cmd.ExecuteNonQuery() > 0;
+            if (model.MoTa != null)
+            {
+                sql += "MoTa = @MoTa, ";
+                parameters.Add(new SqlParameter("@MoTa", SqlDbType.NVarChar, 255)
+                {
+                    Value = model.MoTa
+                });
+                hasChanges = true;
+            }
+
+            if (!hasChanges)
+            {
+                return false;
+            }
+
+            sql = sql.TrimEnd(',', ' ');
+            sql += " WHERE LoaiHangID = @LoaiHangID";
+
+            parameters.Add(new SqlParameter("@LoaiHangID", SqlDbType.NVarChar, 50)
+            {
+                Value = model.LoaiHangID
+            });
+
+            using (var conn = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddRange(parameters.ToArray());
+
+                    try
+                    {
+                        conn.Open();
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        return rowsAffected > 0;
+                    }
+                    catch (SqlException ex)
+                    {
+                        Console.WriteLine($"SQL Error: {ex.Message}");
+                        return false;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error: {ex.Message}");
+                        return false;
+                    }
+                }
             }
         }
+
 
         public bool Delete(string id)
         {
-            string sql = "DELETE FROM LoaiHang WHERE LoaiHangID = @id";
-            using (SqlConnection conn = new SqlConnection(_connectionString))
-            using (SqlCommand cmd = new SqlCommand(sql, conn))
+            const string sql = "DELETE FROM LoaiHang WHERE LoaiHangID = @id";
+            try
             {
-                cmd.Parameters.Add("@id", SqlDbType.NVarChar).Value = id;
+                using SqlConnection conn = new SqlConnection(_connectionString);
+                using SqlCommand cmd = new SqlCommand(sql, conn);
+
+                cmd.Parameters.Add("@id", SqlDbType.NVarChar, 50).Value = id;
+
                 conn.Open();
                 return cmd.ExecuteNonQuery() > 0;
+            }
+            catch
+            {
+                return false;
             }
         }
     }

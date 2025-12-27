@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\QuanLyContainer_API.props" />
+</Project>
