@@ -148,13 +148,12 @@
         <div id="warehouses" class="module-content">
             <div class="header">
                 <h2>🏭 Kho lưu trữ</h2>
-                <div class="parent">
-                    <input class="input" type="text" placeholder="Search..." />
-                    <button class="btn"><a alt="Search">Search</a></button>
+                <div class="header-actions">
+                    <input type="text" class="search-input" placeholder="Tìm kiếm Kho..." data-table="warehouses">
+                    <button class="btn-add-kho">Thêm Kho</button> 
                 </div>
-                <button onclick="openModal('add','warehouses')">Thêm Kho</button>
             </div>
-            <table>
+            <table data-table="warehouses">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -361,7 +360,7 @@
 <div id="dynamicModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
-        <h2 id="modalTitle">Thêm Loại Hàng</h2>
+        <h2 id="modalTitle">Thêm</h2>
         <form id="dynamicForm">
             <input type="hidden" id="entityId">
             <div id="formFields"></div>

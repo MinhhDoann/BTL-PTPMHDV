@@ -1,5 +1,7 @@
 
 import { loadLoaiHang, openAddLoaiHang } from './loaihang.js';
+import { loadKhoLT, openAddKhoLT } from './kholt.js';
+
 
 function showModule(moduleId) {
     document.querySelectorAll('.module-content').forEach(el => el.classList.remove('active'));
@@ -8,6 +10,9 @@ function showModule(moduleId) {
         target.classList.add('active');
         if (moduleId === 'itemTypes') {
             loadLoaiHang();
+        }
+        if (moduleId === 'warehouses') {
+            loadKhoLT();
         }
     }
 }
@@ -28,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Nút thêm
     document.querySelector('.btn-add-loaihang')?.addEventListener('click', openAddLoaiHang);
+    document.querySelector('.btn-add-kho')?.addEventListener('click', openAddKhoLT);
 
     // Đóng modal
     document.querySelector('.close')?.addEventListener('click', closeModal);
@@ -37,4 +43,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Mở Loại hàng ngay khi load để test
     showModule('itemTypes');
+    showModule('warehouses');
 });
