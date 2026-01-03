@@ -76,22 +76,22 @@
         <div id="containers" class="module-content active">
             <div class="header">
                 <h2>📦 Quản lý Container</h2>
-                <div class="parent">
-                    <input class="input" type="text" placeholder="Search..." />
-                    <button class="btn"><a alt="Search">Search</a></button>
+                <div class="header-actions">
+                    <input type="text" class="search-input" placeholder="Tìm kiếm Container..." data-table="containers">
+                    <button class="btn-add-containers">Thêm Container</button> 
                 </div>
-                <button onclick="openModal('add','containers')">Thêm Container</button>
             </div>
-            <table>
+            <table data-module="containers">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Loại hàng</th>
-                        <th>Trọng lượng (kg)</th>
-                        <th>Trạng thái</th>
+                        <th>Hợp Đồng</th>
+                        <th>Loại Hàng</th>
+                        <th>Trọng Lượng</th>
+                        <th>Trạng Thái</th>
                         <th>Kho</th>
-                        <th>Phương tiện</th>
-                        <th>Khách hàng</th>
+                        <th>Phương Tiện</th>
+                        <th>Chuyến Đi</th>
                         <th>Tác vụ</th>
                     </tr>
                 </thead>
