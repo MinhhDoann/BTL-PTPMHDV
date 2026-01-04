@@ -1,11 +1,19 @@
-﻿namespace QuanLyContainer_API.Model
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace QuanLyContainer_API.Model
 {
     public class LoaiHang
     {
-        public string LoaiHangID { get; set; } = null!;
+        public int LoaiHangID { get; set; }
 
-        public string? TenLoai { get; set; }  
-        public string? MoTa { get; set; }      
+        [Required(ErrorMessage = "Tên loại không được rỗng")]
+        [StringLength(100)]
+        public string TenLoai { get; set; } = string.Empty;
+
+        [StringLength(500)]
+        public string? MoTa { get; set; }
+
+        [StringLength(50)]
+        public string? DanhMuc { get; set; }
     }
-
 }

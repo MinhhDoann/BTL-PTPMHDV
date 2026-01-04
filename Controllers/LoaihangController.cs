@@ -1,73 +1,85 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using QuanLyContainer_API.Model;
+using Microsoft.Data.SqlClient;
 using QuanLyContainer_API.ADL;
+using QuanLyContainer_API.Model;
 
 namespace QuanLyContainer_API.Controllers
 {
-    [Route("api/loai-hang")]
     [ApiController]
+    [Route("api/loai-hang")]
     public class LoaiHangController : ControllerBase
     {
         private readonly LoaiHangDAL _dal;
 
-        public LoaiHangController(IConfiguration configuration)
+        public LoaiHangController(IConfiguration config)
         {
-            _dal = new LoaiHangDAL(configuration.GetConnectionString("MyDB"));
+            _dal = new LoaiHangDAL(config.GetConnectionString("MyDB"));
         }
 
-
         [HttpGet("get-all")]
-        public IActionResult GetAllLoaiHang()
+        public IActionResult GetAll()
         {
             return Ok(_dal.GetAll());
         }
 
-        [HttpGet("get-by-id/{id}")]
-        public IActionResult GetLoaiHangById(string id)
+        [HttpGet("get-by-id/{id:int}")]
+        public IActionResult GetById(int id)
         {
-            var item = _dal.GetById(id);
-            return item == null ? NotFound("Không tìm thấy loại hàng") : Ok(item);
+            var data = _dal.GetById(id);
+            return data == null ? NotFound("Không tìm thấy") : Ok(data);
         }
 
+        [HttpGet("search")]
+        public IActionResult Search([FromQuery] string keyword)
+        {
+            if (string.IsNullOrWhiteSpace(keyword))
+                return Ok(_dal.GetAll());
+
+            return Ok(_dal.Search(keyword.Trim()));
+        }
 
         [HttpPost("create")]
-        public IActionResult CreateLoaiHang([FromBody] LoaiHang model)
+        public IActionResult Create(LoaiHang model)
         {
-            if (string.IsNullOrWhiteSpace(model.TenLoai))
-                return BadRequest("Tên loại không được rỗng");
+            ModelState.Remove("LoaiHangID");
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
             return _dal.Create(model)
-                ? Ok(new { message = "Thêm thành công" })
+                ? Ok("Thêm thành công")
                 : BadRequest("Thêm thất bại");
         }
 
-
         [HttpPut("update")]
-        public IActionResult UpdateLoaiHang([FromBody] LoaiHang model)
+        public IActionResult Update(LoaiHang model)
         {
-            if (string.IsNullOrWhiteSpace(model.LoaiHangID))
-            {
-                return BadRequest("Thiếu LoaiHangID");
-            }
+            if (model.LoaiHangID <= 0)
+                return BadRequest("Thiếu ID");
 
-            bool success = _dal.UpdatePartial(model);
-
-            if (success)
-            {
-                return Ok(new { message = "Sửa thành công" });
-            }
-
-            return BadRequest("Không có dữ liệu cần sửa hoặc sửa thất bại");
+            return _dal.UpdatePartial(model)
+                ? Ok("Cập nhật thành công")
+                : BadRequest("Không có dữ liệu cần cập nhật");
         }
 
-
-
-        [HttpDelete("delete/{id}")]
-        public IActionResult DeleteLoaiHang(string id)
+        [HttpGet("delete/{id}")]
+        public IActionResult Delete(int id)
         {
-            return _dal.Delete(id)
-                ? Ok(new { message = "Xóa thành công" })
-                : BadRequest("Xóa thất bại");
+            try
+            {
+                var ok = _dal.Delete(id);
+                if (!ok)
+                    return BadRequest(new { message = "Không tìm thấy loại hàng" });
+
+                return Ok(new { message = "Xóa thành công" });
+            }
+            catch (SqlException ex) when (ex.Number == 547)
+            {
+                return BadRequest(new
+                {
+                    message = "Không thể xóa vì loại hàng đang được sử dụng trong Container"
+                });
+            }
         }
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using QuanLyContainer_API.Model;
-using System.Data;
 using Microsoft.Data.SqlClient;
+using System.Data;
+using System.Text;
 
 namespace QuanLyContainer_API.ADL
 {
@@ -13,161 +14,147 @@ namespace QuanLyContainer_API.ADL
             _connectionString = connectionString;
         }
 
+        // ================= GET ALL =================
         public List<LoaiHang> GetAll()
         {
             var list = new List<LoaiHang>();
-            const string sql = "SELECT LoaiHangID, TenLoai, MoTa FROM LoaiHang";
+            const string sql = "SELECT * FROM LoaiHang";
 
-            using SqlConnection conn = new SqlConnection(_connectionString);
-            using SqlCommand cmd = new SqlCommand(sql, conn);
-
+            using var conn = new SqlConnection(_connectionString);
+            using var cmd = new SqlCommand(sql, conn);
             conn.Open();
-            using SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
+
+            using var rd = cmd.ExecuteReader();
+            while (rd.Read())
             {
-                list.Add(new LoaiHang
-                {
-                    LoaiHangID = reader["LoaiHangID"].ToString(),
-                    TenLoai = reader["TenLoai"].ToString(),
-                    MoTa = reader["MoTa"].ToString()
-                });
+                list.Add(Map(rd));
             }
             return list;
         }
 
-        public LoaiHang GetById(string id)
+        // ================= GET BY ID =================
+        public LoaiHang? GetById(int id)
         {
-            const string sql = "SELECT LoaiHangID, TenLoai, MoTa FROM LoaiHang WHERE LoaiHangID = @id";
+            const string sql = "SELECT * FROM LoaiHang WHERE LoaiHangID=@id";
 
-            using SqlConnection conn = new SqlConnection(_connectionString);
-            using SqlCommand cmd = new SqlCommand(sql, conn);
-
-            cmd.Parameters.Add("@id", SqlDbType.NVarChar, 50).Value = id;
+            using var conn = new SqlConnection(_connectionString);
+            using var cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
 
             conn.Open();
-            using SqlDataReader reader = cmd.ExecuteReader();
-            if (reader.Read())
-            {
-                return new LoaiHang
-                {
-                    LoaiHangID = reader["LoaiHangID"].ToString(),
-                    TenLoai = reader["TenLoai"].ToString(),
-                    MoTa = reader["MoTa"].ToString()
-                };
-            }
-            return null;
+            using var rd = cmd.ExecuteReader();
+            return rd.Read() ? Map(rd) : null;
         }
+
+        // ================= SEARCH ALL =================
+        public List<LoaiHang> Search(string keyword)
+        {
+            var list = new List<LoaiHang>();
+
+            const string sql = @"
+                            SELECT * FROM LoaiHang
+                            WHERE TenLoai LIKE @kw
+                                OR MoTa LIKE @kw
+                                OR DanhMuc LIKE @kw";
+
+            using var conn = new SqlConnection(_connectionString);
+            using var cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.Add("@kw", SqlDbType.NVarChar).Value = $"%{keyword}%";
+
+            conn.Open();
+            using var rd = cmd.ExecuteReader();
+
+            while (rd.Read())
+                list.Add(Map(rd));
+
+            return list;
+        }
+
+
+        // ================= CREATE =================
         public bool Create(LoaiHang model)
         {
-            const string sql = @"INSERT INTO LoaiHang (TenLoai, MoTa)
-                                 VALUES (@TenLoai, @MoTa)";
-            try
-            {
-                using SqlConnection conn = new SqlConnection(_connectionString);
-                using SqlCommand cmd = new SqlCommand(sql, conn);
+            const string sql = @"
+                INSERT INTO LoaiHang (TenLoai, MoTa, DanhMuc)
+                VALUES (@TenLoai, @MoTa, @DanhMuc)";
 
-                cmd.Parameters.Add("@TenLoai", SqlDbType.NVarChar, 100).Value =
-                    string.IsNullOrWhiteSpace(model.TenLoai) ? DBNull.Value : model.TenLoai;
+            using var conn = new SqlConnection(_connectionString);
+            using var cmd = new SqlCommand(sql, conn);
 
-                cmd.Parameters.Add("@MoTa", SqlDbType.NVarChar, 255).Value =
-                    string.IsNullOrWhiteSpace(model.MoTa) ? DBNull.Value : model.MoTa;
+            cmd.Parameters.Add("@TenLoai", SqlDbType.NVarChar, 100).Value = model.TenLoai;
+            cmd.Parameters.Add("@MoTa", SqlDbType.NVarChar, 500)
+                .Value = (object?)model.MoTa ?? DBNull.Value;
+            cmd.Parameters.Add("@DanhMuc", SqlDbType.NVarChar, 50)
+                .Value = (object?)model.DanhMuc ?? DBNull.Value;
 
-                conn.Open();
-                return cmd.ExecuteNonQuery() > 0;
-            }
-            catch
-            {
-                return false;
-            }
+            conn.Open();
+            return cmd.ExecuteNonQuery() > 0;
         }
 
-
+        // ================= UPDATE PARTIAL =================
         public bool UpdatePartial(LoaiHang model)
         {
-            var sql = "UPDATE LoaiHang SET ";
-            var parameters = new List<SqlParameter>();
-            bool hasChanges = false;
+            var sql = new StringBuilder("UPDATE LoaiHang SET ");
+            var pr = new List<SqlParameter>();
 
-            if (model.TenLoai != null)
+            if (!string.IsNullOrWhiteSpace(model.TenLoai))
             {
-                if (!string.IsNullOrWhiteSpace(model.TenLoai) && model.TenLoai != "string")
-                {
-                    sql += "TenLoai = @TenLoai, ";
-                    parameters.Add(new SqlParameter("@TenLoai", SqlDbType.NVarChar, 100)
-                    {
-                        Value = model.TenLoai
-                    });
-                    hasChanges = true;
-                }
+                sql.Append("TenLoai=@TenLoai,");
+                pr.Add(new SqlParameter("@TenLoai", SqlDbType.NVarChar, 100)
+                { Value = model.TenLoai });
             }
 
             if (model.MoTa != null)
             {
-                sql += "MoTa = @MoTa, ";
-                parameters.Add(new SqlParameter("@MoTa", SqlDbType.NVarChar, 255)
-                {
-                    Value = model.MoTa
-                });
-                hasChanges = true;
+                sql.Append("MoTa=@MoTa,");
+                pr.Add(new SqlParameter("@MoTa", SqlDbType.NVarChar, 500)
+                { Value = (object?)model.MoTa ?? DBNull.Value });
             }
 
-            if (!hasChanges)
+            if (model.DanhMuc != null)
             {
-                return false;
+                sql.Append("DanhMuc=@DanhMuc,");
+                pr.Add(new SqlParameter("@DanhMuc", SqlDbType.NVarChar, 50)
+                { Value = (object?)model.DanhMuc ?? DBNull.Value });
             }
 
-            sql = sql.TrimEnd(',', ' ');
-            sql += " WHERE LoaiHangID = @LoaiHangID";
+            if (pr.Count == 0) return false;
 
-            parameters.Add(new SqlParameter("@LoaiHangID", SqlDbType.NVarChar, 50)
-            {
-                Value = model.LoaiHangID
-            });
+            sql.Length--; // xóa dấu ,
+            sql.Append(" WHERE LoaiHangID=@ID");
+            pr.Add(new SqlParameter("@ID", SqlDbType.Int) { Value = model.LoaiHangID });
 
-            using (var conn = new SqlConnection(_connectionString))
-            {
-                using (var cmd = new SqlCommand(sql, conn))
-                {
-                    cmd.Parameters.AddRange(parameters.ToArray());
+            using var conn = new SqlConnection(_connectionString);
+            using var cmd = new SqlCommand(sql.ToString(), conn);
+            cmd.Parameters.AddRange(pr.ToArray());
 
-                    try
-                    {
-                        conn.Open();
-                        int rowsAffected = cmd.ExecuteNonQuery();
-                        return rowsAffected > 0;
-                    }
-                    catch (SqlException ex)
-                    {
-                        Console.WriteLine($"SQL Error: {ex.Message}");
-                        return false;
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"Error: {ex.Message}");
-                        return false;
-                    }
-                }
-            }
+            conn.Open();
+            return cmd.ExecuteNonQuery() > 0;
         }
 
-
-        public bool Delete(string id)
+        // ================= DELETE =================
+        public bool Delete(int id)
         {
-            const string sql = "DELETE FROM LoaiHang WHERE LoaiHangID = @id";
-            try
-            {
-                using SqlConnection conn = new SqlConnection(_connectionString);
-                using SqlCommand cmd = new SqlCommand(sql, conn);
+            const string sql = "DELETE FROM LoaiHang WHERE LoaiHangID=@id";
 
-                cmd.Parameters.Add("@id", SqlDbType.NVarChar, 50).Value = id;
+            using var conn = new SqlConnection(_connectionString);
+            using var cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
 
-                conn.Open();
-                return cmd.ExecuteNonQuery() > 0;
-            }
-            catch
+            conn.Open();
+            return cmd.ExecuteNonQuery() > 0;
+        }
+
+        // ================= MAP =================
+        private static LoaiHang Map(SqlDataReader rd)
+        {
+            return new LoaiHang
             {
-                return false;
-            }
+                LoaiHangID = rd.GetInt32("LoaiHangID"),
+                TenLoai = rd.GetString("TenLoai"),
+                MoTa = rd.IsDBNull("MoTa") ? null : rd.GetString("MoTa"),
+                DanhMuc = rd.IsDBNull("DanhMuc") ? null : rd.GetString("DanhMuc")
+            };
         }
     }
 }
