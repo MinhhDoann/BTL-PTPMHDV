@@ -16,14 +16,12 @@ namespace QuanLyContainer_API.Controllers
             _dal = new KhoLTDAL(config.GetConnectionString("MyDB"));
         }
 
-        // ================= GET ALL =================
         [HttpGet("get-all")]
         public IActionResult GetAll()
         {
             return Ok(_dal.GetAll());
         }
 
-        // ================= GET BY ID =================
         [HttpGet("get-by-id/{id:int}")]
         public IActionResult GetById(int id)
         {
@@ -33,7 +31,6 @@ namespace QuanLyContainer_API.Controllers
                 : Ok(data);
         }
 
-        // ================= SEARCH =================
         [HttpGet("search")]
         public IActionResult Search([FromQuery] string keyword)
         {
@@ -43,7 +40,6 @@ namespace QuanLyContainer_API.Controllers
             return Ok(_dal.Search(keyword.Trim()));
         }
 
-        // ================= CREATE =================
         [HttpPost("create")]
         public IActionResult Create([FromBody] KhoLT model)
         {
@@ -57,7 +53,6 @@ namespace QuanLyContainer_API.Controllers
                 : BadRequest(new { message = "Thêm kho thất bại" });
         }
 
-        // ================= UPDATE =================
         [HttpPut("update")]
         public IActionResult Update([FromBody] KhoLT model)
         {
@@ -69,7 +64,6 @@ namespace QuanLyContainer_API.Controllers
                 : BadRequest(new { message = "Không có dữ liệu cần cập nhật" });
         }
 
-        // ================= DELETE =================
         [HttpDelete("delete/{id:int}")]
         public IActionResult Delete(int id)
         {
