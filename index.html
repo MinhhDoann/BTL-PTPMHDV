@@ -102,13 +102,12 @@
         <div id="containerhistory" class="module-content">
             <div class="header">
                 <h2>📜 Lịch sử Container</h2>
-                <div class="parent">
-                    <input class="input" type="text" placeholder="Search..." />
-                    <button class="btn"><a alt="Search">Search</a></button>
+                <div class="header-actions">
+                    <input type="text" class="search-input" placeholder="Tìm kiếm Lịch sử Container..." data-table="containerhistory">
+                    <button class="btn-add-containerhistory">Thêm Lịch Container</button> 
                 </div>
-                <button onclick="openModal('add','containerhistory')">Thêm Lịch sử</button>
             </div>
-            <table>
+            <table data-module="containerhistory">
                 <thead>
                     <tr>
                         <th>ID</th>

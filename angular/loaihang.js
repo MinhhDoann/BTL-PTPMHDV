@@ -2,7 +2,6 @@ const API_BASE = 'http://localhost:28171/api/loai-hang';
 
 let currentEditId = null;
 
-// ================= LOAD =================
 export function loadLoaiHang() {
     fetch(`${API_BASE}/get-all`)
         .then(res => res.json())
@@ -10,7 +9,6 @@ export function loadLoaiHang() {
         .catch(() => alert('Không tải được dữ liệu'));
 }
 
-// ================= RENDER =================
 function renderTable(items) {
     const tbody = document.querySelector('#itemTypes tbody');
     tbody.innerHTML = '';
@@ -42,7 +40,6 @@ function renderTable(items) {
         .forEach(b => b.onclick = () => deleteLoaiHang(b.dataset.id));
 }
 
-// ================= ADD =================
 export function openAddLoaiHang() {
     currentEditId = null;
     document.getElementById('modalTitle').textContent = 'Thêm Loại Hàng';
@@ -50,7 +47,6 @@ export function openAddLoaiHang() {
     document.getElementById('dynamicModal').style.display = 'block';
 }
 
-// ================= EDIT =================
 function openEditLoaiHang(id) {
     currentEditId = id;
 
@@ -63,7 +59,6 @@ function openEditLoaiHang(id) {
         });
 }
 
-// ================= FORM =================
 function getFormFields(data = {}) {
     return `
         <label>Tên loại hàng *</label>
@@ -77,7 +72,7 @@ function getFormFields(data = {}) {
     `;
 }
 
-// ================= DELETE (CHUẨN REST) =================
+
 function deleteLoaiHang(id) {
     if (!confirm('Bạn chắc chắn muốn xóa?')) return;
 
@@ -95,7 +90,6 @@ function deleteLoaiHang(id) {
     .catch(() => alert('Xóa thất bại'));
 }
 
-// ================= SAVE =================
 document.getElementById('dynamicForm')?.addEventListener('submit', e => {
     e.preventDefault();
 
@@ -140,7 +134,7 @@ let searchTimeout = null;
 
 function searchLoaiHang(keyword) {
     if (!keyword.trim()) {
-        loadLoaiHang(); // rỗng → load lại tất cả
+        loadLoaiHang(); 
         return;
     }
 
@@ -166,6 +160,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         searchTimeout = setTimeout(() => {
             searchLoaiHang(keyword);
-        }, 300); // debounce 300ms
+        }, 300);
     });
 });

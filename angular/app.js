@@ -2,22 +2,32 @@
 import { loadLoaiHang, openAddLoaiHang } from './loaihang.js';
 import { loadKhoLT, openAddKhoLT } from './kholt.js';
 import { loadContainer, openAddContainer } from './container.js';
+import { loadLichSuContainer, openAddLichSu } from './lichsucontainer.js';
 
 
 function showModule(moduleId) {
     document.querySelectorAll('.module-content').forEach(el => el.classList.remove('active'));
     const target = document.getElementById(moduleId);
-    if (target) {
-        target.classList.add('active');
-        if (moduleId === 'itemTypes') {
+    if (!target) return;
+
+    target.classList.add('active');
+
+    switch (moduleId) {
+        case 'itemTypes':
             loadLoaiHang();
-        }
-        if (moduleId === 'warehouses') {
+            break;
+
+        case 'warehouses':
             loadKhoLT();
-        }
-        if (moduleId === 'containers') {
+            break;
+
+        case 'containers':
             loadContainer();
-        }
+            break;
+
+        case 'containerhistory':
+            loadLichSuContainer();
+            break;
     }
 }
 
@@ -38,6 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.btn-add-loaihang')?.addEventListener('click', openAddLoaiHang);
     document.querySelector('.btn-add-kho')?.addEventListener('click', openAddKhoLT);
     document.querySelector('.btn-add-containers')?.addEventListener('click', openAddContainer);
+    document.querySelector('.btn-add-containerhistory')
+        ?.addEventListener('click', () => openAddLichSu());
 
     document.querySelector('.close')?.addEventListener('click', closeModal);
     document.getElementById('dynamicModal')?.addEventListener('click', e => {
