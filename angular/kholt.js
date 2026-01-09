@@ -68,17 +68,17 @@ function openEditKhoLT(id) {
 function getFormFields(data = {}) {
     return `
         <label>Tên kho *</label>
-        <input id="TenKho" value="${data.TenKho || ''}" required>
+        <input id="TenKho" value="${data.tenKho || ''}" required>
 
         <label>Sức chứa *</label>
         <input type="number" id="SucChua" min="1"
-               value="${data.SucChua ?? ''}" required>
+               value="${data.sucChua || ''}" required>
 
         <label>Địa chỉ</label>
-        <input id="DiaChi" value="${data.DiaChi || ''}">
+        <input id="DiaChi" value="${data.diaChi || ''}">
 
         <label>Nhân viên quản lý</label>
-        <input id="NhanVienQuanLy" value="${data.NhanVienQuanLy || ''}">
+        <input id="NhanVienQuanLy" value="${data.nhanVienQuanLy || ''}">
     `;
 }
 

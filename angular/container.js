@@ -110,7 +110,20 @@ function getFormFields(data = {}) {
         <input type="number" step="0.01" id="trongLuong" value="${data.trongLuong ?? ''}">
 
         <label>Trạng thái</label>
-        <input id="trangThai" value="${data.trangThai ?? ''}">
+        <select id="trangThai">
+            ${[
+                'Rỗng',
+                'Đã đóng hàng',
+                'Đang vận chuyển',
+                'Cần bảo trì',
+                'Đã Giao'
+            ].map(status => `
+                <option value="${status}"
+                    ${(data.trangThai ?? 'Rỗng') === status ? 'selected' : ''}>
+                    ${status}
+                </option>
+            `).join('')}
+        </select>        
 
         <label>Kho</label>
         <select id="khoID"></select>

@@ -1,7 +1,7 @@
 const API_LICHSU = 'http://localhost:28171/api/lich-su-container';
 
-let currentContainerId = null;  // ID container đang xem (nếu có)
-let currentEditId = null;       // ID lịch sử đang sửa (nếu có)
+let currentContainerId = null;  
+let currentEditId = null;      
 let searchTimeout = null;
 
 // ================= LOAD =================
@@ -80,8 +80,21 @@ function getFormFields(data = {}) {
                value="${data.thoiGian ? new Date(data.thoiGian).toISOString().slice(0,16) : new Date().toISOString().slice(0,16)}"
                required>
 
-        <label>Hoạt động *</label>
-        <input id="hoatDong" value="${data.hoatDong || ''}" required>
+        <label>Hành động *</label>
+        <select id="hoatDong" required>
+            <option value="">-- Chọn hành động --</option>
+            ${[
+                'Nhập container',
+                'Đóng hàng',
+                'Xuất kho',
+                'Giao hàng',
+                'Kiểm tra container'
+            ].map(opt => `
+                <option value="${opt}" ${data.hoatDong === opt ? 'selected' : ''}>
+                    ${opt}
+                </option>
+            `).join('')}
+        </select>
 
         <label>Vị trí</label>
         <input id="viTri" value="${data.viTri || ''}">
@@ -111,10 +124,7 @@ document.getElementById('dynamicForm')?.addEventListener('submit', e => {
     e.preventDefault();
 
     const containerIDInput = document.getElementById('containerID');
-    if (!containerIDInput || !containerIDInput.value) {
-        alert('Container ID không được để trống');
-        return;
-    }
+    const containerID = containerIDInput?.value?.trim();
 
     const payload = {
         containerID: Number(containerIDInput.value),
@@ -130,7 +140,6 @@ document.getElementById('dynamicForm')?.addEventListener('submit', e => {
         return;
     }
 
-    // Chỉ dùng create (POST) - không có update nữa vì không cho sửa
     const url = `${API_LICHSU}/create`;
     const method = 'POST';
 
