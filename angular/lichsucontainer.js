@@ -4,7 +4,6 @@ let currentContainerId = null;
 let currentEditId = null;      
 let searchTimeout = null;
 
-// ================= LOAD =================
 export function loadLichSuContainer() {
     fetch(`${API_LICHSU}/get-all`)
         .then(res => res.json())
@@ -21,7 +20,7 @@ export function loadLichSuByContainer(containerId) {
         .catch(() => alert('Không tải được lịch sử theo container'));
 }
 
-// ================= RENDER =================
+
 function renderTable(items) {
     const tbody = document.querySelector('#containerhistory table tbody');
     if (!tbody) return;
@@ -60,8 +59,7 @@ export function openAddLichSu(containerId) {
     document.getElementById('dynamicModal').style.display = 'block';
 }
 
-// Đã disable nút Sửa nên không cần hàm openEditLichSu nữa
-// Nhưng giữ lại để tránh lỗi nếu có gọi nhầm (có thể xóa sau)
+
 function openEditLichSu(id) {
     alert('Chức năng sửa đã bị vô hiệu hóa.');
 }

@@ -222,3 +222,37 @@ document.getElementById('dynamicForm')?.addEventListener('submit', e => {
     })
     .catch(() => alert('Lưu thất bại'));
 });
+
+let searchTimeout = null;
+
+function searchContainer(keyword) {
+    if (!keyword.trim()) {
+        loadKhoLT(); // rỗng → load lại tất cả
+        return;
+    }
+
+    fetch(`${API_BASE}/search?keyword=${encodeURIComponent(keyword)}`)
+        .then(res => {
+            if (!res.ok) throw new Error('Search lỗi');
+            return res.json();
+        })
+        .then(data => renderTable(data))
+        .catch(err => {
+            console.error('Lỗi search:', err);
+        });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.querySelector('#containers .search-input');
+    if (!searchInput) return;
+
+    searchInput.addEventListener('input', e => {
+        clearTimeout(searchTimeout);
+
+        const keyword = e.target.value;
+
+        searchTimeout = setTimeout(() => {
+            searchContainer(keyword);
+        }, 300); // debounce 300ms
+    });
+});
