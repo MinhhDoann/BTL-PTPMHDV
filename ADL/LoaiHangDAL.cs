@@ -71,7 +71,6 @@ namespace QuanLyContainer_API.ADL
         }
 
 
-        // ================= CREATE =================
         public bool Create(LoaiHang model)
         {
             const string sql = @"
@@ -91,7 +90,6 @@ namespace QuanLyContainer_API.ADL
             return cmd.ExecuteNonQuery() > 0;
         }
 
-        // ================= UPDATE PARTIAL =================
         public bool UpdatePartial(LoaiHang model)
         {
             var sql = new StringBuilder("UPDATE LoaiHang SET ");
@@ -132,7 +130,6 @@ namespace QuanLyContainer_API.ADL
             return cmd.ExecuteNonQuery() > 0;
         }
 
-        // ================= DELETE =================
         public bool Delete(int id)
         {
             const string sql = "DELETE FROM LoaiHang WHERE LoaiHangID=@id";
@@ -145,7 +142,6 @@ namespace QuanLyContainer_API.ADL
             return cmd.ExecuteNonQuery() > 0;
         }
 
-        // ================= MAP =================
         private static LoaiHang Map(SqlDataReader rd)
         {
             return new LoaiHang

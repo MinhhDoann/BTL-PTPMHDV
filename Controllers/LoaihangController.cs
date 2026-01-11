@@ -61,7 +61,7 @@ namespace QuanLyContainer_API.Controllers
                 : BadRequest("Không có dữ liệu cần cập nhật");
         }
 
-        [HttpGet("delete/{id}")]
+        [HttpDelete("delete/{id:int}")]
         public IActionResult Delete(int id)
         {
             try

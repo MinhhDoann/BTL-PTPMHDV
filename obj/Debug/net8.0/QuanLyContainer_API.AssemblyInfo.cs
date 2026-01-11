@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("QuanLyContainer_API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+36ed172ca2ebb8e46ca9cecbd02cf3f198808ae0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c52ad3fd1421985db74159294ccff0afd04cf5c7")]
 [assembly: System.Reflection.AssemblyProductAttribute("QuanLyContainer_API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("QuanLyContainer_API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

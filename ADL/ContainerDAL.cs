@@ -14,7 +14,6 @@ namespace QuanLyContainer_API.ADL
             _connectionString = connectionString;
         }
 
-        // ================= GET ALL =================
         public List<Container> GetAll()
         {
             var list = new List<Container>();
@@ -31,7 +30,6 @@ namespace QuanLyContainer_API.ADL
             return list;
         }
 
-        // ================= GET BY ID =================
         public Container? GetById(int id)
         {
             const string sql = "SELECT * FROM Container WHERE ContainerID=@id";
@@ -45,7 +43,6 @@ namespace QuanLyContainer_API.ADL
             return rd.Read() ? Map(rd) : null;
         }
 
-        // ================= SEARCH =================
         public List<Container> Search(string keyword)
         {
             var list = new List<Container>();
@@ -71,7 +68,6 @@ namespace QuanLyContainer_API.ADL
             return list;
         }
 
-        // ================= CREATE =================
         public bool Create(Container model)
         {
             const string sql = @"
@@ -97,10 +93,9 @@ namespace QuanLyContainer_API.ADL
                 .Value = (object?)model.ChuyenDiID ?? DBNull.Value;
 
             conn.Open();
-            return cmd.ExecuteNonQuery() > 0;
+                return cmd.ExecuteNonQuery() > 0;
         }
 
-        // ================= UPDATE PARTIAL =================
         public bool UpdatePartial(Container model)
         {
             var sql = new StringBuilder("UPDATE Container SET ");
@@ -170,7 +165,6 @@ namespace QuanLyContainer_API.ADL
             return cmd.ExecuteNonQuery() > 0;
         }
 
-        // ================= DELETE =================
         public bool Delete(int id)
         {
             const string sql = "DELETE FROM Container WHERE ContainerID=@id";
@@ -197,6 +191,22 @@ namespace QuanLyContainer_API.ADL
                 PhuongTienID = rd.IsDBNull("PhuongTienID") ? null : rd.GetInt32("PhuongTienID"),
                 ChuyenDiID = rd.IsDBNull("ChuyenDiID") ? null : rd.GetInt32("ChuyenDiID")
             };
+        }
+        public bool UpdateTrangThai(int containerId, string trangThai)
+        {
+            const string sql = @"
+        UPDATE Container
+        SET TrangThai = @TrangThai
+        WHERE ContainerID = @ContainerID";
+
+            using var conn = new SqlConnection(_connectionString);
+            using var cmd = new SqlCommand(sql, conn);
+
+            cmd.Parameters.Add("@TrangThai", SqlDbType.NVarChar, 50).Value = trangThai;
+            cmd.Parameters.Add("@ContainerID", SqlDbType.Int).Value = containerId;
+
+            conn.Open();
+            return cmd.ExecuteNonQuery() > 0;
         }
     }
 }
